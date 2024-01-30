@@ -11,10 +11,12 @@ public class GestureAction : MonoBehaviour
     private float hitDistance;
     private Vector3 offset;
     IInteractable selectedObject;
+    IInteractable touchedObject;
     internal bool DragBeganOnTarget = false;
-    
+    internal bool initialTouch = true;
     internal void tapAt(Vector2 position)
     {
+        print("Tap");
         Ray ray = Camera.main.ScreenPointToRay(position);
         RaycastHit hitInfo;
 
@@ -58,15 +60,35 @@ public class GestureAction : MonoBehaviour
         if (Physics.Raycast(ray, out hitInfo))
         {
             IInteractable objectHit = hitInfo.collider.gameObject.GetComponent<IInteractable>();
-            if (objectHit == selectedObject)
-                {
-                    DragBeganOnTarget = true;
-                }
+            if (objectHit == touchedObject)
+            {
+                DragBeganOnTarget = true;
+            }
         }
 
-        if(selectedObject != null && DragBeganOnTarget)
-         {
-            selectedObject.processDrag(screenPoint);
-         }     
+        if (touchedObject != null && DragBeganOnTarget)
+        {
+            touchedObject.processDrag(screenPoint);
+        }
+    }
+
+    internal void InitialTouch(Vector2 position)
+    {
+        if (initialTouch)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(position);
+            RaycastHit hitInfo;
+
+            if (Physics.Raycast(ray, out hitInfo))
+            {
+                IInteractable objectHit = hitInfo.collider.gameObject.GetComponent<IInteractable>();
+                if (objectHit != null)
+                {
+                    hitDistance = Vector3.Distance(hitInfo.transform.position, Camera.main.transform.position);
+                    objectHit.distanceOnTap(hitDistance);
+                    touchedObject = objectHit;
+                }
+            }
+        }
     }
 }
