@@ -34,6 +34,8 @@ public class TouchManager : MonoBehaviour
             case TouchPhase.Began:
                 hasMoved = false;
                 touchTimer = 0f;
+                actOn.InitialTouch(t.position);
+                actOn.initialTouch = false;
                 break;
             case TouchPhase.Moved:
                 hasMoved = true;
@@ -48,6 +50,7 @@ public class TouchManager : MonoBehaviour
                     actOn.tapAt(t.position);
                 }
                 actOn.DragBeganOnTarget = false;
+                actOn.initialTouch = true;
                 break;
         }
     }
