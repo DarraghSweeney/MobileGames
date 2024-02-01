@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -10,23 +11,12 @@ public class TouchManager : MonoBehaviour
     private bool hasMoved = false;
     private float MaxTapTime = 1f;
     private GestureAction actOn;
+    private MultiTouchHandler MyHandler;
 
     void Start()
     {
-        actOn = FindObjectOfType<GestureAction>();
-
-
     }
-    private void Update()
-    {
-        if (Input.touchCount > 0)
-        {
-            foreach (Touch t in Input.touches)
-            {
-                HandleTouch(t);
-            }
-        }
-    }
+
     public void HandleTouch(Touch t)
     {
         switch (t.phase)
@@ -51,7 +41,18 @@ public class TouchManager : MonoBehaviour
                 }
                 actOn.DragBeganOnTarget = false;
                 actOn.initialTouch = true;
+
+                Destroy(gameObject);
+                MyHandler.RemoveTouch(t.fingerId);
                 break;
         }
     }
+
+    internal void SelfAware(MultiTouchHandler Mh)
+    {
+        MyHandler = Mh;
+        actOn = FindObjectOfType<GestureAction>();
+    }
+
+ 
 }

@@ -31,6 +31,7 @@ public class GestureAction : MonoBehaviour
                 if (selectedObject != null)
                 {
                     selectedObject.unSelect();
+                    selectedObject = null;
                 }
                 selectedObject = objectHit;
             }
