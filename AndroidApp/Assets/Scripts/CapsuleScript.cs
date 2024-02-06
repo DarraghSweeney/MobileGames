@@ -25,4 +25,9 @@ public class CapsuleScript : MonoBehaviour, IInteractable
     {
         dragDistance = startDistanceOnSelect;
     }
+
+    public void ScaleAmount(float ScaleValue)
+    {
+        throw new System.NotImplementedException();
+    }
 }

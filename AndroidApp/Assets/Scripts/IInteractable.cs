@@ -9,4 +9,5 @@ public interface IInteractable
     void processDrag(Vector3 position);
     void unSelect();
     void distanceOnTap(float hitDistance);
+    void ScaleAmount(float ScaleValue);
 }
