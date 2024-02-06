@@ -25,4 +25,9 @@ public class SphereScript : MonoBehaviour, IInteractable
     {
         dragDistance = startDistanceOnSelect;
     }
+
+    public void ScaleAmount(float ScaleValue)
+    {
+        throw new System.NotImplementedException();
+    }
 }

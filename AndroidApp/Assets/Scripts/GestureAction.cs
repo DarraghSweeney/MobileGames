@@ -14,6 +14,9 @@ public class GestureAction : MonoBehaviour
     IInteractable touchedObject;
     internal bool DragBeganOnTarget = false;
     internal bool initialTouch = true;
+    private int MyTouchID;
+
+
     internal void tapAt(Vector2 position)
     {
         print("Tap");
@@ -54,7 +57,7 @@ public class GestureAction : MonoBehaviour
         }
     }
 
-    internal void drag(Vector2 screenPoint)
+    internal void drag(Vector2 screenPoint, int fingerId)
     {
         Ray ray = Camera.main.ScreenPointToRay(screenPoint);
         RaycastHit hitInfo;
@@ -67,16 +70,18 @@ public class GestureAction : MonoBehaviour
             }
         }
 
-        if (touchedObject != null && DragBeganOnTarget)
+        if (touchedObject != null && DragBeganOnTarget && MyTouchID.Equals(fingerId))
         {
             touchedObject.processDrag(screenPoint);
         }
     }
 
-    internal void InitialTouch(Vector2 position)
+    internal void InitialTouch(Vector2 position, int fingerId)
     {
         if (initialTouch)
         {
+            print("Initial Touch for " + fingerId.ToString());
+            MyTouchID = fingerId;
             Ray ray = Camera.main.ScreenPointToRay(position);
             RaycastHit hitInfo;
 
