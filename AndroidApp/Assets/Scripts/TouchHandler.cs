@@ -10,12 +10,16 @@ public class TouchHandler : MonoBehaviour
     private float touchTimer = 0;
     private bool hasMoved = false;
     private float MaxTapTime = 1f;
-    private GestureAction actOn;
+    private GestureAction MyActOn;
     private MultiTouchManager MyHandler;
     internal Vector2 touchPosition;
     internal bool IsSlave = false;
     internal TouchHandler OtherHandler;
 
+
+    private void Start()
+    {
+    }
     public void HandleTouch(Touch t)
     {
         touchPosition = t.position;
@@ -24,12 +28,14 @@ public class TouchHandler : MonoBehaviour
             case TouchPhase.Began:
                 hasMoved = false;
                 touchTimer = 0f;
-                actOn.InitialTouch(t.position, t.fingerId);
-                actOn.initialTouch = false;
+                MyActOn.InitialTouch(t.position, t.fingerId);
+                MyActOn.initialTouch = false;
+                MyActOn.MyFingerStartPos(t.position);
                 break;
             case TouchPhase.Moved:
                 hasMoved = true;
-                actOn.drag(t.position, t.fingerId);
+                MyActOn.drag(t.position, t.fingerId);
+                MyActOn.FingerScale(t.position);
                 break;
             case TouchPhase.Stationary:
                 touchTimer += Time.deltaTime;
@@ -37,10 +43,10 @@ public class TouchHandler : MonoBehaviour
             case TouchPhase.Ended:
                 if (touchTimer < MaxTapTime && !hasMoved)
                 {
-                    actOn.tapAt(t.position);
+                    MyActOn.tapAt(t.position);
                 }
-                actOn.DragBeganOnTarget = false;
-                actOn.initialTouch = true;
+                MyActOn.DragBeganOnTarget = false;
+                MyActOn.initialTouch = true;
 
                 Destroy(gameObject);
                 MyHandler.RemoveTouch(t.fingerId);
@@ -51,6 +57,11 @@ public class TouchHandler : MonoBehaviour
     internal void SelfAware(MultiTouchManager Mh)
     {
         MyHandler = Mh;
-        actOn = GetComponent<GestureAction>();
+        MyActOn = GetComponent<GestureAction>();
+    }
+
+    internal GestureAction MyActionScript()
+    {
+        return MyActOn;
     }
 }

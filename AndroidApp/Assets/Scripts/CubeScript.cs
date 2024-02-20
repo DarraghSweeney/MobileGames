@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class CubeScript : MonoBehaviour, IInteractable
 {
+    bool IsSelected = false;
     float dragDistance = 0;
+    Transform StartingScale;
+
+    void Start()
+    {
+        StartingScale.transform.localScale = transform.localScale;
+    }
+
     public void processTap()
     {
         GetComponent<Renderer>().material.color = Color.red;
+        IsSelected = true;
     }
 
     public void processDrag(Vector3 newPos)
@@ -19,6 +28,7 @@ public class CubeScript : MonoBehaviour, IInteractable
     public void unSelect()
     {
         GetComponent<Renderer>().material.color = Color.white;
+        IsSelected = false;
     }
 
     public void distanceOnTap(float startDistanceOnSelect)
@@ -28,6 +38,11 @@ public class CubeScript : MonoBehaviour, IInteractable
 
     public void ScaleAmount(float ScaleValue)
     {
-        throw new System.NotImplementedException();
+       transform.localScale = StartingScale.transform.localScale * ScaleValue;
+    }
+
+    public bool SelectedCheck()
+    {
+        return IsSelected;
     }
 }
