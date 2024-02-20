@@ -15,7 +15,13 @@ public class GestureAction : MonoBehaviour
     internal bool DragBeganOnTarget = false;
     internal bool initialTouch = true;
     private int MyTouchID;
+    internal Vector2 StartPos;
+    internal Vector2 ConstPos;
 
+    private void Start()
+    {
+
+    }
 
     internal void tapAt(Vector2 position)
     {
@@ -30,17 +36,23 @@ public class GestureAction : MonoBehaviour
             {
                 hitDistance = Vector3.Distance(hitInfo.transform.position, Camera.main.transform.position);
                 objectHit.distanceOnTap(hitDistance);
-                objectHit.processTap();
-                if (selectedObject != null)
+               
+                selectedObject = objectHit;
+
+                if (selectedObject != null && selectedObject.SelectedCheck())
                 {
                     selectedObject.unSelect();
                     selectedObject = null;
                 }
-                selectedObject = objectHit;
+
+                else { objectHit.processTap(); }
+               
+
+
             }
             else
             {
-                if (selectedObject != null)
+                if (selectedObject != null && selectedObject.SelectedCheck())
                 {
                     selectedObject.unSelect();
                     selectedObject = null;
@@ -49,7 +61,7 @@ public class GestureAction : MonoBehaviour
         }
         else
         {
-            if (selectedObject != null)
+            if (selectedObject != null && selectedObject.SelectedCheck())
             {
                 selectedObject.unSelect();
                 selectedObject = null;
@@ -95,6 +107,25 @@ public class GestureAction : MonoBehaviour
                     touchedObject = objectHit;
                 }
             }
+        }
+    }
+
+
+    internal void FingerScale(Vector2 position)
+    {
+        StartPos = position;
+    }
+
+    internal void MyFingerStartPos(Vector2 position)
+    {  
+        ConstPos = position;
+    }
+
+    internal void ScaleObject(float ScaleValue)
+    {
+        if(selectedObject != null)
+        {
+            selectedObject.ScaleAmount(ScaleValue); 
         }
     }
 }

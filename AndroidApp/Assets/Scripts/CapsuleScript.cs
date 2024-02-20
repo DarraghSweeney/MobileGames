@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class CapsuleScript : MonoBehaviour, IInteractable
 {
+    bool IsSelected = false;
     float dragDistance = 0;
     public void processTap()
     {
         GetComponent<Renderer>().material.color = Color.blue;
+        IsSelected = true;
     }
 
     public void processDrag(Vector3 newPos)
@@ -19,6 +21,7 @@ public class CapsuleScript : MonoBehaviour, IInteractable
     public void unSelect()
     {
         GetComponent<Renderer>().material.color = Color.white;
+        IsSelected = false;
     }
 
     public void distanceOnTap(float startDistanceOnSelect)
@@ -29,5 +32,10 @@ public class CapsuleScript : MonoBehaviour, IInteractable
     public void ScaleAmount(float ScaleValue)
     {
         throw new System.NotImplementedException();
+    }
+
+    public bool SelectedCheck()
+    {
+        return IsSelected;
     }
 }
