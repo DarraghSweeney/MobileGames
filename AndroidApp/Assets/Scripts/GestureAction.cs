@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,10 +18,11 @@ public class GestureAction : MonoBehaviour
     private int MyTouchID;
     internal Vector2 StartPos;
     internal Vector2 ConstPos;
+    private MultiTouchManager MultiTouchmanager;  
 
     private void Start()
     {
-
+       MultiTouchmanager = FindAnyObjectByType<MultiTouchManager>();
     }
 
     internal void tapAt(Vector2 position)
@@ -45,7 +47,7 @@ public class GestureAction : MonoBehaviour
                     selectedObject = null;
                 }
 
-                else { objectHit.processTap(); }
+                else { MultiTouchmanager.NewSelectedObject(objectHit); }
                
 
 
@@ -123,9 +125,9 @@ public class GestureAction : MonoBehaviour
 
     internal void ScaleObject(float ScaleValue)
     {
-        if(selectedObject != null)
-        {
-            selectedObject.ScaleAmount(ScaleValue); 
+        if(MultiTouchmanager.GetSelectedObj() != null)
+        { 
+            MultiTouchmanager.SelectedObject.ScaleAmount(ScaleValue,MultiTouchmanager.SelectObjStartScale); 
         }
     }
 }

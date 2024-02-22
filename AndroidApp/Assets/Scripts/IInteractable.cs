@@ -10,6 +10,8 @@ public interface IInteractable
     void processDrag(Vector3 position);
     void unSelect();
     void distanceOnTap(float hitDistance);
-    void ScaleAmount(float ScaleValue);
+    void ScaleAmount(float ScaleValue, Vector3 selectObjStartScale);
     bool SelectedCheck();
+    Vector3 GetStartScale();
+    Quaternion GetStartRotation();
 }

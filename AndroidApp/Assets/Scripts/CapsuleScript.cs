@@ -6,6 +6,8 @@ public class CapsuleScript : MonoBehaviour, IInteractable
 {
     bool IsSelected = false;
     float dragDistance = 0;
+    Vector3 StartingScale;
+
     public void processTap()
     {
         GetComponent<Renderer>().material.color = Color.blue;
@@ -29,13 +31,20 @@ public class CapsuleScript : MonoBehaviour, IInteractable
         dragDistance = startDistanceOnSelect;
     }
 
-    public void ScaleAmount(float ScaleValue)
-    {
-        throw new System.NotImplementedException();
-    }
-
     public bool SelectedCheck()
     {
         return IsSelected;
+    }
+
+    public Vector3 GetStartScale()
+    {
+        StartingScale = transform.localScale;
+
+        return StartingScale;
+    }
+
+    public void ScaleAmount(float ScaleValue, Vector3 selectObjStartScale)
+    {
+        transform.localScale = StartingScale / ScaleValue;
     }
 }

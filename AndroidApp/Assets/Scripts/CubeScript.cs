@@ -6,13 +6,7 @@ public class CubeScript : MonoBehaviour, IInteractable
 {
     bool IsSelected = false;
     float dragDistance = 0;
-    Transform StartingScale;
-
-    void Start()
-    {
-        StartingScale.transform.localScale = transform.localScale;
-    }
-
+    Vector3 StartingScale;
     public void processTap()
     {
         GetComponent<Renderer>().material.color = Color.red;
@@ -36,13 +30,20 @@ public class CubeScript : MonoBehaviour, IInteractable
       dragDistance = startDistanceOnSelect;
     }
 
-    public void ScaleAmount(float ScaleValue)
+    public void ScaleAmount(float ScaleValue, Vector3 selectObjStartScale)
     {
-       transform.localScale = StartingScale.transform.localScale * ScaleValue;
+       transform.localScale = StartingScale/ScaleValue;
     }
 
     public bool SelectedCheck()
     {
         return IsSelected;
+    }
+
+    public Vector3 GetStartScale()
+    {
+        StartingScale = transform.localScale;
+
+        return StartingScale;
     }
 }
