@@ -6,6 +6,8 @@ public class SphereScript : MonoBehaviour, IInteractable
 {
     bool IsSelected = false;
     float dragDistance = 0;
+    Vector3 StartingScale;
+
     public void processTap()
     {
         GetComponent<Renderer>().material.color = Color.yellow;
@@ -29,13 +31,20 @@ public class SphereScript : MonoBehaviour, IInteractable
         dragDistance = startDistanceOnSelect;
     }
 
-    public void ScaleAmount(float ScaleValue)
+    public void ScaleAmount(float ScaleValue, Vector3 selectObjStartScale)
     {
-        throw new System.NotImplementedException();
+        transform.localScale = StartingScale/ScaleValue;
     }
 
     public bool SelectedCheck()
     {
         return IsSelected;
+    }
+
+    public Vector3 GetStartScale()
+    {
+        StartingScale = transform.localScale;
+
+        return StartingScale;
     }
 }

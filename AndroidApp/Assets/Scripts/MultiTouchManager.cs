@@ -7,6 +7,9 @@ using UnityEngine;
 public class MultiTouchManager : MonoBehaviour
 {
     internal Dictionary<int, TouchHandler> touchManagers = new Dictionary<int, TouchHandler>();
+    internal IInteractable SelectedObject;
+    internal Vector3 SelectObjStartScale;
+    internal Quaternion SelectObjStartRotation;
 
     // Update is called once per frame
     void Update()
@@ -52,5 +55,22 @@ public class MultiTouchManager : MonoBehaviour
     internal void RemoveTouch(int fingerId)
     {
         touchManagers.Remove(fingerId);
+    }
+
+    internal void NewSelectedObject(IInteractable SelectedObj)
+    {
+        if(SelectedObject != null)
+        {
+            SelectedObject.unSelect();
+        }
+
+        SelectedObject = SelectedObj;
+        SelectObjStartScale = SelectedObject.GetStartScale();
+        SelectedObj.processTap();
+    }
+
+    internal object GetSelectedObj()
+    {
+        return SelectedObject;
     }
 }
