@@ -9,7 +9,7 @@ public class MultiTouchManager : MonoBehaviour
     internal Dictionary<int, TouchHandler> touchManagers = new Dictionary<int, TouchHandler>();
     internal IInteractable SelectedObject;
     internal Vector3 SelectObjStartScale;
-    internal Quaternion SelectObjStartRotation;
+    internal Quaternion SelectedObjectStartRotation;
 
     // Update is called once per frame
     void Update()
@@ -32,6 +32,12 @@ public class MultiTouchManager : MonoBehaviour
             }
         }
 
+        if(touchManagers.Count < 2 && SelectedObject != null)
+        {
+            SelectObjStartScale = SelectedObject.GetStartScale();
+            SelectedObjectStartRotation = SelectedObject.GetStartRotation();
+        }
+
         if(touchManagers.Count == 2)
         {
             FingerDistance(touchManagers[0], touchManagers[1]);
@@ -40,14 +46,13 @@ public class MultiTouchManager : MonoBehaviour
             GestureAction ThatAction = touchManagers[1].MyActionScript();
 
             ThisAction.ScaleObject(Vector2.Distance(ThisAction.ConstPos,ThatAction.ConstPos)/Vector2.Distance(ThisAction.StartPos, ThatAction.StartPos));
-            
         }
     }
 
     internal double FingerDistance(TouchHandler FirstFinger, TouchHandler SecondFinger)
     {
         float Distance = Vector2.Distance(FirstFinger.touchPosition, SecondFinger.touchPosition);
-        print(Distance);
+        //print(Distance);
 
         return Distance;
     }
@@ -66,11 +71,20 @@ public class MultiTouchManager : MonoBehaviour
 
         SelectedObject = SelectedObj;
         SelectObjStartScale = SelectedObject.GetStartScale();
+        SelectedObjectStartRotation = SelectedObject.GetStartRotation();
         SelectedObj.processTap();
     }
 
     internal object GetSelectedObj()
     {
         return SelectedObject;
+    }
+
+    internal void RemoveSelectedObject()
+    {
+        if(SelectedObject != null)
+        {
+            SelectedObject = null;
+        }
     }
 }

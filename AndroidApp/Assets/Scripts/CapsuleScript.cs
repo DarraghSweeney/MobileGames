@@ -7,6 +7,7 @@ public class CapsuleScript : MonoBehaviour, IInteractable
     bool IsSelected = false;
     float dragDistance = 0;
     Vector3 StartingScale;
+    Quaternion StartingRotation;
 
     public void processTap()
     {
@@ -43,8 +44,20 @@ public class CapsuleScript : MonoBehaviour, IInteractable
         return StartingScale;
     }
 
-    public void ScaleAmount(float ScaleValue, Vector3 selectObjStartScale)
+    public void ScaleAmount(float ScaleValue)
     {
         transform.localScale = StartingScale / ScaleValue;
+    }
+
+    public void RotateAmount(float RotationValue)
+    {
+       
+    }
+
+    public Quaternion GetStartRotation()
+    {
+        StartingRotation = transform.rotation;
+
+        return StartingRotation;
     }
 }

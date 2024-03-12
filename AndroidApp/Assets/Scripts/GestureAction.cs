@@ -45,6 +45,7 @@ public class GestureAction : MonoBehaviour
                 {
                     selectedObject.unSelect();
                     selectedObject = null;
+                    MultiTouchmanager.RemoveSelectedObject();
                 }
 
                 else { MultiTouchmanager.NewSelectedObject(objectHit); }
@@ -58,6 +59,7 @@ public class GestureAction : MonoBehaviour
                 {
                     selectedObject.unSelect();
                     selectedObject = null;
+                    MultiTouchmanager.RemoveSelectedObject();
                 }
             }
         }
@@ -67,6 +69,7 @@ public class GestureAction : MonoBehaviour
             {
                 selectedObject.unSelect();
                 selectedObject = null;
+                MultiTouchmanager.RemoveSelectedObject();
             }
         }
     }
@@ -127,7 +130,15 @@ public class GestureAction : MonoBehaviour
     {
         if(MultiTouchmanager.GetSelectedObj() != null)
         { 
-            MultiTouchmanager.SelectedObject.ScaleAmount(ScaleValue,MultiTouchmanager.SelectObjStartScale); 
+            MultiTouchmanager.SelectedObject.ScaleAmount(ScaleValue); 
+        }
+    }
+
+    internal void RotateObject(float RotationValue)
+    {
+        if(MultiTouchmanager.GetSelectedObj() != null)
+        {
+            MultiTouchmanager.SelectedObject.RotateAmount(RotationValue);
         }
     }
 }

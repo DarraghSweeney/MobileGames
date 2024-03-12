@@ -7,6 +7,7 @@ public class SphereScript : MonoBehaviour, IInteractable
     bool IsSelected = false;
     float dragDistance = 0;
     Vector3 StartingScale;
+    Quaternion StartingRotation;
 
     public void processTap()
     {
@@ -31,9 +32,16 @@ public class SphereScript : MonoBehaviour, IInteractable
         dragDistance = startDistanceOnSelect;
     }
 
-    public void ScaleAmount(float ScaleValue, Vector3 selectObjStartScale)
+    public void ScaleAmount(float ScaleValue)
     {
         transform.localScale = StartingScale/ScaleValue;
+    }
+
+    public void RotateAmount(float RotationValue)
+    {
+        Quaternion RotationAmount = Quaternion.AngleAxis(RotationValue, Vector3.forward);
+
+        transform.localRotation = StartingRotation * RotationAmount;
     }
 
     public bool SelectedCheck()
@@ -46,5 +54,12 @@ public class SphereScript : MonoBehaviour, IInteractable
         StartingScale = transform.localScale;
 
         return StartingScale;
+    }
+
+    public Quaternion GetStartRotation()
+    {
+        StartingRotation = transform.rotation;
+
+        return StartingRotation;
     }
 }
